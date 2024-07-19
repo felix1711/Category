@@ -482,3 +482,388 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start the initial scroll timer
     startScrollTimer();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const category = document.getElementById("Category");
+    const sections = document.querySelectorAll(".section");
+    const totalSections = sections.length;
+    let currentSection = 0;
+    let isScrolling = false;
+    let a = 2;
+    let autoScrollTimeout;
+
+    function updateDivWidths() {
+        const leftDiv = sections[currentSection].querySelector('.div-left');
+        const rightDiv = sections[currentSection].querySelector('.div-right');
+        if (leftDiv && rightDiv) {
+            if (a % 2 === 1) {
+                leftDiv.style.width = '30%';
+                rightDiv.style.width = '70%';
+            } else {
+                leftDiv.style.width = '70%';
+                rightDiv.style.width = '30%';
+            }
+        }
+    }
+
+    function scrollToNextSection() {
+        if (currentSection < totalSections - 1) {
+            if (currentSection < 5 ) {
+                if (a % 2 === 0) {
+                    a++;
+                    updateDivWidths();
+                } else {
+                    currentSection++;
+                    a++;
+                    updateDivWidths();
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            } else {
+                currentSection++;
+                const leftPosition = -100 * currentSection;
+                category.style.left = `${leftPosition}vw`;
+            }
+        }
+    }
+
+    function resetAutoScroll() {
+        clearTimeout(autoScrollTimeout);
+        autoScrollTimeout = setInterval(() => {
+            scrollToNextSection(); // Automatically scroll down every 3 seconds
+        }, 5000);
+    }
+
+    function onScroll(event) {
+        event.preventDefault(); // Prevent default scrolling behavior
+        if (isScrolling) return; // Ignore if currently scrolling
+
+        isScrolling = true; // Mark as scrolling
+        resetAutoScroll(); // Reset auto-scroll timer on manual scroll
+
+        if (event.deltaY > 0) {
+            // Scrolling down
+            if (currentSection < totalSections - 1) {
+                if (currentSection < 5) {
+                    if (a % 2 === 0) {
+                        a++;
+                        updateDivWidths();
+                    } else {
+                        currentSection++;
+                        a++;
+                        updateDivWidths();
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                } else {
+                    currentSection++;
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            }
+        } else {
+            // Scrolling up
+            if (currentSection > 0) {
+                if (a % 2 === 1) {
+                    a++;
+                    updateDivWidths();
+                } else {
+                    a--;
+                    currentSection--;
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            }
+        }
+
+        // Adjust position style
+        category.style.position = currentSection === totalSections - 1 ? 'absolute' : 'fixed';
+        category.style.top = '0';
+
+        setTimeout(() => {
+            isScrolling = false; // Reset scrolling state
+        }, 300); // Adjust this value as needed
+    }
+
+    function onClick(event) {
+        const target = event.target;
+        const section = target.closest('.section');
+
+        if (section) {
+            const sectionWidth = section.clientWidth;
+            const clickX = event.clientX - section.getBoundingClientRect().left; // Click position relative to the section
+
+            if (clickX > sectionWidth / 2) {
+                // Clicked on the right side (width > 50%)
+                if (currentSection < totalSections - 1) {
+                    if (currentSection < 5 ) {
+                        if (a % 2 === 0) {
+                            a++;
+                            updateDivWidths();
+                        } else {
+                            currentSection++;
+                            a++;
+                            updateDivWidths();
+                            const leftPosition = -100 * currentSection;
+                            category.style.left = `${leftPosition}vw`;
+                        }
+                    } else {
+                        currentSection++;
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                }
+            } else {
+                // Clicked on the left side (width < 50%)
+                if (currentSection > 0) {
+                    if (a % 2 === 1) {
+                        a++;
+                        updateDivWidths();
+                    } else {
+                        a--;
+                        currentSection--;
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                }
+            }
+        }
+    }
+
+    // Initial setup for the first section
+    updateDivWidths(); // Start with initial widths
+
+    // Attach the scroll event listener
+    window.addEventListener("wheel", onScroll);
+
+    // Attach the click event listener
+    category.addEventListener("click", onClick);
+
+    // Start auto-scrolling every 3 seconds of inactivity
+    resetAutoScroll();
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const category = document.getElementById("Category");
+    const sections = document.querySelectorAll(".section");
+    const totalSections = sections.length;
+    let currentSection = 0;
+    let isScrolling = false;
+    let a = 2;
+    let autoScrollTimeout;
+    let isFirstInactivity = true; // Flag to track the first inactivity
+
+    function updateDivWidths() {
+        const leftDiv = sections[currentSection].querySelector('.div-left');
+        const rightDiv = sections[currentSection].querySelector('.div-right');
+        if (leftDiv && rightDiv) {
+            if (a % 2 === 1) {
+                leftDiv.style.width = '30%';
+                rightDiv.style.width = '70%';
+            } else {
+                leftDiv.style.width = '70%';
+                rightDiv.style.width = '30%';
+            }
+        }
+    }
+
+    function scrollToNextSection() {
+        if (currentSection < totalSections - 1) {
+            if (currentSection < 5 ) {
+                if (a % 2 === 0) {
+                    a++;
+                    updateDivWidths();
+                } else {
+                    currentSection++;
+                    a++;
+                    updateDivWidths();
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            } else {
+                currentSection++;
+                const leftPosition = -100 * currentSection;
+                category.style.left = `${leftPosition}vw`;
+            }
+        }
+    }
+
+    function resetAutoScroll() {
+        clearTimeout(autoScrollTimeout);
+        autoScrollTimeout = setInterval(() => {
+            scrollToNextSection(); // Automatically scroll down every 3 seconds
+        }, 3000); // Changed to 3000ms for every 3 seconds
+    }
+
+    function animateSection() {
+        // Perform the animation sequence for the current section
+        const leftDiv = sections[currentSection].querySelector('.div-left');
+        const rightDiv = sections[currentSection].querySelector('.div-right');
+        
+        let count = 0;
+        let interval = setInterval(() => {
+            if (count < 4) { // Run the animation loop for 4 seconds
+                if (a % 2 === 0) {
+                    a++;
+                    leftDiv.style.width = '30%';
+                    rightDiv.style.width = '70%';
+                } else {
+                    a++;
+                    leftDiv.style.width = '70%';
+                    rightDiv.style.width = '30%';
+                }
+                count++;
+            } else {
+                clearInterval(interval);
+                isFirstInactivity = false; // Reset flag after first animation
+                resetAutoScroll(); // Restart auto-scrolling
+            }
+        }, 1000); // Transition every 1 second
+    }
+
+    function onScroll(event) {
+        event.preventDefault(); // Prevent default scrolling behavior
+        if (isScrolling) return; // Ignore if currently scrolling
+
+        isScrolling = true; // Mark as scrolling
+        resetAutoScroll(); // Reset auto-scroll timer on manual scroll
+
+        if (event.deltaY > 0) {
+            // Scrolling down
+            if (currentSection < totalSections - 1) {
+                if (currentSection < 5) {
+                    if (a % 2 === 0) {
+                        a++;
+                        updateDivWidths();
+                    } else {
+                        currentSection++;
+                        a++;
+                        updateDivWidths();
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                } else {
+                    currentSection++;
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            }
+        } else {
+            // Scrolling up
+            if (currentSection > 0) {
+                if (a % 2 === 1) {
+                    a++;
+                    updateDivWidths();
+                } else {
+                    a--;
+                    currentSection--;
+                    const leftPosition = -100 * currentSection;
+                    category.style.left = `${leftPosition}vw`;
+                }
+            }
+        }
+
+        // Adjust position style
+        category.style.position = currentSection === totalSections - 1 ? 'absolute' : 'fixed';
+        category.style.top = '0';
+
+        setTimeout(() => {
+            isScrolling = false; // Reset scrolling state
+        }, 300); // Adjust this value as needed
+    }
+
+    function onClick(event) {
+        const target = event.target;
+        const section = target.closest('.section');
+
+        if (section) {
+            const sectionWidth = section.clientWidth;
+            const clickX = event.clientX - section.getBoundingClientRect().left; // Click position relative to the section
+
+            if (clickX > sectionWidth / 2) {
+                // Clicked on the right side (width > 50%)
+                if (currentSection < totalSections - 1) {
+                    if (currentSection < 5 ) {
+                        if (a % 2 === 0) {
+                            a++;
+                            updateDivWidths();
+                        } else {
+                            currentSection++;
+                            a++;
+                            updateDivWidths();
+                            const leftPosition = -100 * currentSection;
+                            category.style.left = `${leftPosition}vw`;
+                        }
+                    } else {
+                        currentSection++;
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                }
+            } else {
+                // Clicked on the left side (width < 50%)
+                if (currentSection > 0) {
+                    if (a % 2 === 1) {
+                        a++;
+                        updateDivWidths();
+                    } else {
+                        a--;
+                        currentSection--;
+                        const leftPosition = -100 * currentSection;
+                        category.style.left = `${leftPosition}vw`;
+                    }
+                }
+            }
+        }
+
+        // Reset the auto-scroll timer on click
+        resetAutoScroll();
+    }
+
+    // Initial setup for the first section
+    updateDivWidths(); // Start with initial widths
+
+    // Attach the scroll event listener
+    window.addEventListener("wheel", onScroll);
+
+    // Attach the click event listener
+    category.addEventListener("click", onClick);
+
+    // Start auto-scrolling every 3 seconds of inactivity
+    resetAutoScroll();
+
+    // Detect first inactivity and perform animation sequence
+    let idleTimeout;
+    let lastInteractionTime = Date.now(); // Track the time of last interaction
+
+    // Listen for clicks on the document to reset the idle timer
+    document.addEventListener('click', () => {
+        lastInteractionTime = Date.now();
+        clearTimeout(idleTimeout);
+        if (isFirstInactivity) {
+            animateSection();
+        }
+    });
+
+    // Listen for wheel events to reset the idle timer
+    window.addEventListener('wheel', () => {
+        lastInteractionTime = Date.now();
+        clearTimeout(idleTimeout);
+        if (isFirstInactivity) {
+            animateSection();
+        }
+    });
+
+    // Check for inactivity every second
+    setInterval(() => {
+        const currentTime = Date.now();
+        if (currentTime - lastInteractionTime > 3000) { // 3 seconds of inactivity
+            lastInteractionTime = currentTime;
+            clearTimeout(idleTimeout);
+            if (isFirstInactivity) {
+                animateSection();
+            }
+        }
+    }, 1000);
+});
