@@ -115,6 +115,7 @@ if (!category.addEventListener("wheel", onScroll)){
     }
 
     function onClick(event) {
+        resetAutoScroll();
         const target = event.target;
         const section = target.closest('.section');
 
