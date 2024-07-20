@@ -9,19 +9,29 @@ html, body {
 }
 
 .page1 {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 50vh;
+    width: 100%;
+    overflow-x: hidden;
+    transition: top 1s, left 1s;
+}
+
+.page1.relative {
     position: relative;
-    height: 100vh; 
-    overflow-x: hidden; 
+    z-index: 100;
+    transition: top 1s, left 1s;
 }
 
 .page2 {
-    height: 100vh;
+    height: 50vh;
     width: 100vw;
     background-color: blanchedalmond;
 }
 
 #Category {
-    height: 100vh;
+    height: 50vh;
     width: 600vw; 
     display: flex;
     position: relative;
@@ -29,7 +39,7 @@ html, body {
 }
 
 #intro {
-    height: 100vh;
+    height: 50vh;
     width: 100vw;
     display: flex;
     align-items: center;
@@ -47,7 +57,7 @@ html, body {
 .section {
     background-color: rgb(235, 235, 149);
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,12 +68,12 @@ html, body {
     background-color: rgb(54, 69, 75);
     width: 70%; 
     transition: width 0.8s;
-    height:100vh; 
+    height:50vh; 
 }
 
 .div-right {
     background-color: rgb(114, 106, 106);
     width: 30%;
     transition: width 0.8s;
-    height:100vh
+    height:50vh;
 }
