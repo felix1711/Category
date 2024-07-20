@@ -49,8 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (event.deltaY > 0) {
                 if (currentSection < 5) {
-                    category.style.top = '0';
-                    category.style.position ='fixed';
                     if (a % 2 === 0) {
                         a++;
                         updateDivWidths();
@@ -69,8 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
         } else {
             if (currentSection > 0) {
-                category.style.top = '0';
-                category.style.position ='fixed';
                 if (a % 2 === 1) {
                     a++;
                     updateDivWidths();
@@ -129,7 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     updateDivWidths(); 
+    window.addEventListener('wheel', onScroll);
     category.addEventListener("wheel", onScroll);
     category.addEventListener("click", onClick);
     resetAutoScroll();
 });
+
+
