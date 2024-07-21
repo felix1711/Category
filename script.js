@@ -5,28 +5,37 @@ document.addEventListener("DOMContentLoaded", () => {
     let isScrolling = false;
     let a = 2;
     let autoScrollTimeout;
+    const page1 = document.getElementById("page1")
 
-if (!category.addEventListener("wheel", onScroll)){
+        // const pages = document.querySelectorAll('.page');
+        
+        // pages.forEach(page => {
+        //     page.addEventListener('transitionend', (event) => {
+        //         const targetPage = event.target.closest('.page');
+        //         const rect = targetPage.getBoundingClientRect();
+    
+        //         if (rect.top === 0 && (targetPage.id === 'page1' || targetPage.id === 'page2')) {
+        //             category.addEventListener("wheel", onScroll);
+        //         }
+        //     });
+        // });
+    
+
     const observerOptions = {
-        threshold: [0, 0.1]  
+        threshold:[0,0.01]
       };
-      
-    const observer = new IntersectionObserver((entries) => {
+      const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (entry.boundingClientRect.bottom >= window.innerHeight) {
-              category.addEventListener("wheel", onScroll);
-              console.log("Event listener added for currentSection 0");
-            } else if (entry.boundingClientRect.top <= 0) {
-              category.addEventListener("wheel", onScroll);
-              console.log("Event listener added for currentSection 5");
+            if (entry.isIntersecting) {
+                if (entry.boundingClientRect.bottom >= window.innerHeight || entry.boundingClientRect.top <= 0) {
+                    category.addEventListener("wheel", onScroll);
+                    console.log("Event listener added");
+                }
             }
-          }
         });
-      }, observerOptions);
-      
-      observer.observe(category);
-}
+    }, observerOptions);
+    
+    observer.observe(category);
 
     function updateDivWidths() {
         const leftDiv = sections[currentSection].querySelector('.div-left');
@@ -43,6 +52,8 @@ if (!category.addEventListener("wheel", onScroll)){
     }
 
     function scrollToNextSection() {
+        category.style.top = '0';
+        category.style.position = 'fixed';
         if (currentSection < 5) {
             if (a % 2 === 0) {
                 a++;
@@ -81,14 +92,16 @@ if (!category.addEventListener("wheel", onScroll)){
                 } else {
                     currentSection++;
                     a++;
-                    updateDivWidths();
                     const leftPosition = -100 * currentSection;
                     category.style.left = `${leftPosition}vw`;
                 }
             } else {
-                category.style.top = null;
-                category.style.position = 'relative';
-                category.removeEventListener("wheel", onScroll);
+                        category.removeEventListener("wheel", onScroll);
+                        page1.style.position ='absolute';
+                        category.style.position='relative';
+                        page1.style.top='0';
+                        page1.style.left='0';
+                        
             }
         } else {
             if (currentSection > 0) {
@@ -104,9 +117,12 @@ if (!category.addEventListener("wheel", onScroll)){
                     category.style.left = `${leftPosition}vw`;
                 }
             } else {
-                category.style.top = null;
-                category.style.position = 'relative';
-                category.removeEventListener("wheel", onScroll);
+                        category.removeEventListener("wheel", onScroll);
+                        category.style.position='relative';
+                        page1.style.position ='absolute';
+                        page1.style.top='100%';
+                        page1.style.left='0';
+                        
             }
         }
         setTimeout(() => {
@@ -125,6 +141,8 @@ if (!category.addEventListener("wheel", onScroll)){
 
             if (clickX > sectionWidth / 2) {
                 if (currentSection < 5) {
+                    category.style.top = '0';
+                    category.style.position = 'fixed';
                     if (a % 2 === 0) {
                         a++;
                         updateDivWidths();
@@ -139,6 +157,8 @@ if (!category.addEventListener("wheel", onScroll)){
             } else {
                 if (currentSection > 0) {
                     if (a % 2 === 1) {
+                        category.style.top = '0';
+                        category.style.position = 'fixed';
                         a++;
                         updateDivWidths();
                     } else {
@@ -157,6 +177,7 @@ if (!category.addEventListener("wheel", onScroll)){
     category.addEventListener("wheel", onScroll);
     resetAutoScroll();
 });
+
 
 
 
